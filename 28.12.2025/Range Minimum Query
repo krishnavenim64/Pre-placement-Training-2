@@ -1,0 +1,28 @@
+class SegmentTreeMin {
+    int[] tree;
+    int n;
+
+    SegmentTreeMin(int[] arr) {
+        n = arr.length;
+        tree = new int[2 * n];
+        for (int i = 0; i < n; i++)
+            tree[n + i] = arr[i];
+
+        for (int i = n - 1; i > 0; i--)
+            tree[i] = Math.min(tree[i * 2], tree[i * 2 + 1]);
+    }
+
+    int rangeMin(int l, int r) {
+        l += n;
+        r += n;
+        int min = Integer.MAX_VALUE;
+
+        while (l <= r) {
+            if ((l & 1) == 1) min = Math.min(min, tree[l++]);
+            if ((r & 1) == 0) min = Math.min(min, tree[r--]);
+            l /= 2;
+            r /= 2;
+        }
+        return min;
+    }
+}
