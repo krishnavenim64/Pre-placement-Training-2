@@ -1,0 +1,23 @@
+class Fenwick {
+    int[] bit;
+
+    Fenwick(int n) {
+        bit = new int[n + 1];
+    }
+
+    void update(int i, int val) {
+        while (i < bit.length) {
+            bit[i] += val;
+            i += i & -i;
+        }
+    }
+
+    int query(int i) {
+        int sum = 0;
+        while (i > 0) {
+            sum += bit[i];
+            i -= i & -i;
+        }
+        return sum;
+    }
+}
