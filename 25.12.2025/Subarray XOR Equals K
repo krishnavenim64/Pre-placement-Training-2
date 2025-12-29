@@ -1,0 +1,16 @@
+import java.util.HashMap;
+
+class SubarrayXOR {
+    public static int subarrayXor(int[] nums, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
+
+        int xor = 0, count = 0;
+        for (int n : nums) {
+            xor ^= n;
+            count += map.getOrDefault(xor ^ k, 0);
+            map.put(xor, map.getOrDefault(xor, 0) + 1);
+        }
+        return count;
+    }
+}
