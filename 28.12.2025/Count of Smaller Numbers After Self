@@ -1,0 +1,39 @@
+import java.util.*;
+
+class CountSmaller {
+    public static List<Integer> countSmaller(int[] nums) {
+        int[] sorted = nums.clone();
+        Arrays.sort(sorted);
+
+        Map<Integer, Integer> indexMap = new HashMap<>();
+        for (int i = 0; i < sorted.length; i++)
+            indexMap.put(sorted[i], i + 1);
+
+        int[] tree = new int[sorted.length + 1];
+        List<Integer> res = new ArrayList<>();
+
+        for (int i = nums.length - 1; i >= 0; i--) {
+            int idx = indexMap.get(nums[i]);
+            res.add(query(tree, idx - 1));
+            update(tree, idx);
+        }
+        Collections.reverse(res);
+        return res;
+    }
+
+    static void update(int[] tree, int i) {
+        while (i < tree.length) {
+            tree[i]++;
+            i += i & (-i);
+        }
+    }
+
+    static int query(int[] tree, int i) {
+        int sum = 0;
+        while (i > 0) {
+            sum += tree[i];
+            i -= i & (-i);
+        }
+        return sum;
+    }
+}
