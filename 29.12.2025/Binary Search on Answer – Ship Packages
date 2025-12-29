@@ -1,0 +1,26 @@
+class ShipPackages {
+    public static int shipWithinDays(int[] w, int d) {
+        int low = 0, high = 0;
+        for (int x : w) {
+            low = Math.max(low, x);
+            high += x;
+        }
+
+        while (low < high) {
+            int mid = (low + high) / 2;
+            int days = 1, load = 0;
+
+            for (int x : w) {
+                if (load + x > mid) {
+                    days++;
+                    load = 0;
+                }
+                load += x;
+            }
+
+            if (days <= d) high = mid;
+            else low = mid + 1;
+        }
+        return low;
+    }
+}
