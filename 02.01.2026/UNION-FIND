@@ -1,0 +1,14 @@
+def countComponents(n, edges):
+    parent = [i for i in range(n)]
+
+    def find(x):
+        if parent[x] != x:
+            parent[x] = find(parent[x])
+        return parent[x]
+
+    for u,v in edges:
+        parent[find(u)] = find(v)
+
+    return len(set(find(x) for x in range(n)))
+
+print(countComponents(5, [[0,1],[1,2],[3,4]]))  # Output: 2
