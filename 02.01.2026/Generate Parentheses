@@ -1,0 +1,18 @@
+def generateParenthesis(n):
+    result = []
+
+    def backtrack(open_p, close_p, curr):
+        if len(curr) == 2 * n:
+            result.append(curr)
+            return
+
+        if open_p < n:
+            backtrack(open_p + 1, close_p, curr + "(")
+
+        if close_p < open_p:
+            backtrack(open_p, close_p + 1, curr + ")")
+
+    backtrack(0, 0, "")
+    return result
+
+print(generateParenthesis(3))
