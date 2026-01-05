@@ -1,0 +1,12 @@
+def rob(nums):
+    if not nums:
+        return 0
+    if len(nums) <= 2:
+        return max(nums)
+    
+    prev, curr = 0, 0
+    for num in nums:
+        prev, curr = curr, max(curr, prev + num)
+    return curr
+
+print(rob([2,7,9,3,1]))
