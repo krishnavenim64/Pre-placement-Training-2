@@ -1,0 +1,8 @@
+def maxElement(nums):
+    max_val = nums[0]
+    for num in nums:
+        if num > max_val:
+            max_val = num
+    return max_val
+
+print(maxElement([3, 1, 7, 2]))
