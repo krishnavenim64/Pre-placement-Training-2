@@ -1,0 +1,46 @@
+class LFUCache {
+    Map<Integer, Integer> val = new HashMap<>();
+    Map<Integer, Integer> freq = new HashMap<>();
+    Map<Integer, LinkedHashSet<Integer>> map = new HashMap<>();
+    int cap, min = 0;
+
+    public LFUCache(int capacity) {
+        cap = capacity;
+    }
+
+    public int get(int key) {
+        if (!val.containsKey(key)) return -1;
+        update(key);
+        return val.get(key);
+    }
+
+    public void put(int key, int value) {
+        if (cap == 0) return;
+
+        if (val.containsKey(key)) {
+            val.put(key, value);
+            update(key);
+            return;
+        }
+
+        if (val.size() == cap) {
+            int evict = map.get(min).iterator().next();
+            map.get(min).remove(evict);
+            val.remove(evict);
+            freq.remove(evict);
+        }
+
+        val.put(key, value);
+        freq.put(key, 1);
+        map.computeIfAbsent(1, k -> new LinkedHashSet<>()).add(key);
+        min = 1;
+    }
+
+    void update(int key) {
+        int f = freq.get(key);
+        freq.put(key, f + 1);
+        map.get(f).remove(key);
+        if (map.get(f).isEmpty() && f == min) min++;
+        map.computeIfAbsent(f + 1, k -> new LinkedHashSet<>()).add(key);
+    }
+}
