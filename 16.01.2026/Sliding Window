@@ -1,0 +1,6 @@
+def maxProfit(prices):
+    minp, profit = float('inf'), 0
+    for p in prices:
+        minp = min(minp, p)
+        profit = max(profit, p - minp)
+    return profit
